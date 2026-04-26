@@ -15,21 +15,21 @@ def get_hint(secret, guess):
         return f" So close! Go a little {direction}."
     elif diff <= 15:
         direction = "higher" if secret > guess else "lower"
-        return f"  Getting warm! Try going {direction}."
+        return f"  Try going {direction}."
     elif diff <= 30:
         direction = "higher" if secret > guess else "lower"
-        return f"  Not quite. A bit {direction}."
+        return f"  GO a bit {direction}."
     else:
         if secret > guess:
-            return " Too low! Way higher than that."
+            return " Too low it is higher than that."
         else:
-            return " Too high! Way lower than that."
+            return " Too high it is lower than that."
 
 
 # ─── Main App ───────────────────────
 
 class NumberGuessingApp:
-    MAX_GUESSES = 10
+    MAX_GUESSES = 7
 
     # colour palette
     BG        = "#0d0d1a"
@@ -44,7 +44,7 @@ class NumberGuessingApp:
 
     def __init__(self, root):
         self.root = root
-        self.root.title("Number Guessing Game 🎯")
+        self.root.title("Number Guessing Game ")
         self.root.configure(bg=self.BG)
         self.root.resizable(False, False)
 
@@ -82,7 +82,7 @@ class NumberGuessingApp:
                  pady=18).pack(**pad)
 
         tk.Label(self.root,
-                 text="Crack the secret number between 0 – 100",
+                 text="Crack the secret number between 1 – 100",
                  font=self.f_sub, bg=self.BG, fg=self.MUTED).pack()
 
         # ── divider ──
@@ -97,12 +97,12 @@ class NumberGuessingApp:
         tk.Label(counter_frame, text="ATTEMPTS LEFT",
                  font=self.f_small, bg=self.CARD, fg=self.MUTED).pack(pady=(10,0))
 
-        self.lbl_counter = tk.Label(counter_frame, text="10",
+        self.lbl_counter = tk.Label(counter_frame, text="7",
                                     font=self.f_counter, bg=self.CARD,
                                     fg=self.ACCENT2)
         self.lbl_counter.pack()
 
-        self.lbl_progress = tk.Label(counter_frame, text="Guess 1 of 10",
+        self.lbl_progress = tk.Label(counter_frame, text=f"Guess 1 of {self.MAX_GUESSES}",
                                      font=self.f_small, bg=self.CARD,
                                      fg=self.MUTED)
         self.lbl_progress.pack(pady=(0,10))
@@ -176,7 +176,7 @@ class NumberGuessingApp:
 
     # ── game state ─────────────────────────────────────────────────────────────
     def _new_game(self):
-        self.secret   = random.randint(0, 100)
+        self.secret   = random.randint(1, 100)
         self.attempts = 0
         self.game_over = False
 
@@ -201,12 +201,12 @@ class NumberGuessingApp:
         try:
             guess = int(raw)
         except ValueError:
-            self._flash_hint("⚠️  Enter a whole number!", self.DANGER)
+            self._flash_hint("  Enter a whole number!", self.DANGER)
             self.entry_var.set("")
             return
 
-        if guess < 0 or guess > 100:
-            self._flash_hint("⚠️  Number must be between 0 and 100!", self.DANGER)
+        if guess < 1 or guess > 100:
+            self._flash_hint("⚠️  Number must be between 1 and 100!", self.DANGER)
             self.entry_var.set("")
             return
 
@@ -243,12 +243,12 @@ class NumberGuessingApp:
         self.btn_guess.config(state="disabled", bg=self.MUTED)
 
         if won:
-            msg = f"🎉 CORRECT!  The number was {self.secret}\n   Guessed in {self.attempts} attempt(s)!"
+            msg = f" CORRECT!  The number was {self.secret}\n   Guessed in {self.attempts} attempt(s)!"
             self.lbl_hint.config(text=msg, fg=self.SUCCESS,
                                  font=tkfont.Font(family="Courier New", size=12, weight="bold"))
             self.lbl_counter.config(fg=self.SUCCESS)
         else:
-            msg = f"💀 GAME OVER!  The number was {self.secret}"
+            msg = f" GAME OVER!  The number was {self.secret}"
             self.lbl_hint.config(text=msg, fg=self.DANGER,
                                  font=tkfont.Font(family="Courier New", size=12, weight="bold"))
             self.lbl_counter.config(text="0", fg=self.DANGER)
