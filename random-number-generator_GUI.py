@@ -162,7 +162,7 @@ class NumberGuessingApp:
         self.history_text.pack(fill="x")
 
         # ── play again button (hidden until game ends) ──
-        self.btn_again = tk.Button(self.root, text="▶  PLAY AGAIN",
+        self.btn_again = tk.Button(self.root, text=" PLAY AGAIN",
                                    font=self.f_btn,
                                    bg=self.SUCCESS, fg="white",
                                    activebackground="#16a34a",
@@ -206,7 +206,7 @@ class NumberGuessingApp:
             return
 
         if guess < 1 or guess > 100:
-            self._flash_hint("⚠️  Number must be between 1 and 100!", self.DANGER)
+            self._flash_hint("  Number must be between 1 and 100!", self.DANGER)
             self.entry_var.set("")
             return
 
@@ -215,7 +215,7 @@ class NumberGuessingApp:
 
         # correct!
         if guess == self.secret:
-            self._add_history(self.attempts, guess, "✅ CORRECT!")
+            self._add_history(self.attempts, guess, " CORRECT!")
             self._end_game(won=True)
             return
 
